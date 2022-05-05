@@ -20,6 +20,7 @@ struct ContentView: View {
     @State var spacing: CGFloat = 10
     @State var headspace: CGFloat = 10
     @State var sidesScaling: CGFloat = 0.8
+    @State var sidesShift: CGFloat = 0
     @State var isWrap: Bool = false
     @State var autoScroll: Bool = false
     @State var time: TimeInterval = 1
@@ -35,20 +36,22 @@ struct ContentView: View {
                       spacing: spacing,
                       headspace: headspace,
                       sidesScaling: sidesScaling,
+                      sidesShift: sidesShift,
                       isWrap: isWrap,
                       autoScroll: autoScroll ? .active(time) : .inactive) { name in
                 Image(name)
                     .resizable()
                     .scaledToFill()
-                    .frame(height: 300)
+                    .frame(width: 150, height: 300)
                     .cornerRadius(30)
             }
-            .frame(height: 300)
+            .frame(height: 320)
             Spacer()
             
             ControlPanel(spacing: $spacing,
                          headspace: $headspace,
                          sidesScaling: $sidesScaling,
+                         sidesShift: $sidesShift,
                          isWrap: $isWrap,
                          autoScroll: $autoScroll,
                          duration: $time)
@@ -62,9 +65,10 @@ struct ControlPanel: View {
     @Binding var spacing: CGFloat
     @Binding var headspace: CGFloat
     @Binding var sidesScaling: CGFloat
+    @Binding var sidesShift: CGFloat
     @Binding var isWrap: Bool
     @Binding var autoScroll: Bool
-    @Binding var duration: TimeInterval
+    @Binding var duration: TimeInterval    
     
     var body: some View {
         VStack {
@@ -80,6 +84,10 @@ struct ControlPanel: View {
                 HStack {
                     Text("sidesScaling: ").frame(width: 120)
                     Slider(value: $sidesScaling, in: 0...1, minimumValueLabel: Text("0"), maximumValueLabel: Text("1")) { EmptyView() }
+                }
+                HStack {
+                    Text("sidesShift: ").frame(width: 120)
+                    Slider(value: $sidesShift, in: 0...50, minimumValueLabel: Text("0"), maximumValueLabel: Text("50")) { EmptyView() }
                 }
                 HStack {
                     Toggle(isOn: $isWrap, label: {
