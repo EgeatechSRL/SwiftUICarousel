@@ -37,8 +37,9 @@ class ACarouselViewModel<Data, ID>: ObservableObject where Data : RandomAccessCo
     private let sidesShift: CGFloat
     private let _autoScroll: ACarouselAutoScroll
     private let _canMove: Bool
+    private let contentWidth: CGFloat
     
-    init(_ data: Data, id: KeyPath<Data.Element, ID>, index: Binding<Int>, spacing: CGFloat, headspace: CGFloat, sidesScaling: CGFloat, sidesShift: CGFloat, isWrap: Bool, autoScroll: ACarouselAutoScroll, canMove: Bool) {
+    init(_ data: Data, contentWidth: CGFloat, id: KeyPath<Data.Element, ID>, index: Binding<Int>, spacing: CGFloat, headspace: CGFloat, sidesScaling: CGFloat, sidesShift: CGFloat, isWrap: Bool, autoScroll: ACarouselAutoScroll, canMove: Bool) {
         
         guard index.wrappedValue < data.count else {
             fatalError("The index should be less than the count of data ")
@@ -53,6 +54,7 @@ class ACarouselViewModel<Data, ID>: ObservableObject where Data : RandomAccessCo
         self._autoScroll = autoScroll
         self._canMove = canMove
         self.sidesShift = sidesShift
+        self.contentWidth = contentWidth
         
         if data.count > 1 && isWrap {
             activeIndex = index.wrappedValue + 1
@@ -107,8 +109,8 @@ class ACarouselViewModel<Data, ID>: ObservableObject where Data : RandomAccessCo
 
 extension ACarouselViewModel where ID == Data.Element.ID, Data.Element : Identifiable {
     
-    convenience init(_ data: Data, index: Binding<Int>, spacing: CGFloat, headspace: CGFloat, sidesScaling: CGFloat, sidesShift: CGFloat, isWrap: Bool, autoScroll: ACarouselAutoScroll, canMove: Bool) {
-        self.init(data, id: \.id, index: index, spacing: spacing, headspace: headspace, sidesScaling: sidesScaling, sidesShift: sidesShift, isWrap: isWrap, autoScroll: autoScroll, canMove: canMove)
+    convenience init(_ data: Data, contentWidth: CGFloat, index: Binding<Int>, spacing: CGFloat, headspace: CGFloat, sidesScaling: CGFloat, sidesShift: CGFloat, isWrap: Bool, autoScroll: ACarouselAutoScroll, canMove: Bool) {
+        self.init(data, contentWidth: contentWidth, id: \.id, index: index, spacing: spacing, headspace: headspace, sidesScaling: sidesScaling, sidesShift: sidesShift, isWrap: isWrap, autoScroll: autoScroll, canMove: canMove)
     }
 }
 
@@ -144,7 +146,8 @@ extension ACarouselViewModel {
     }
     
     var itemWidth: CGFloat {
-        max(0, 250 - defaultPadding * 2)
+        //max(0, 250 - defaultPadding * 2)
+        contentWidth
     }
     
     var timer: TimePublisher? {

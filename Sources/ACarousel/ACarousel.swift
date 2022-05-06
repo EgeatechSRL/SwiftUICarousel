@@ -75,9 +75,9 @@ extension ACarousel {
     ///   - autoScroll: A enum that define view to scroll automatically. See
     ///     ``ACarouselAutoScroll``. default is `inactive`.
     ///   - content: The view builder that creates views dynamically.
-    public init(_ data: Data, id: KeyPath<Data.Element, ID>, index: Binding<Int> = .constant(0), spacing: CGFloat = 10, headspace: CGFloat = 10, sidesScaling: CGFloat = 0.8, sidesShift: CGFloat = 0.0, isWrap: Bool = false, autoScroll: ACarouselAutoScroll = .inactive, canMove: Bool = true, @ViewBuilder content: @escaping (Data.Element) -> Content) {
+    public init(_ data: Data, contentWidth: CGFloat, id: KeyPath<Data.Element, ID>, index: Binding<Int> = .constant(0), spacing: CGFloat = 10, headspace: CGFloat = 10, sidesScaling: CGFloat = 0.8, sidesShift: CGFloat = 0.0, isWrap: Bool = false, autoScroll: ACarouselAutoScroll = .inactive, canMove: Bool = true, @ViewBuilder content: @escaping (Data.Element) -> Content) {
         
-        self.viewModel = ACarouselViewModel(data, id: id, index: index, spacing: spacing, headspace: headspace, sidesScaling: sidesScaling, sidesShift: sidesShift, isWrap: isWrap, autoScroll: autoScroll, canMove: canMove)
+        self.viewModel = ACarouselViewModel(data, contentWidth: contentWidth, id: id,  index: index, spacing: spacing, headspace: headspace, sidesScaling: sidesScaling, sidesShift: sidesShift, isWrap: isWrap, autoScroll: autoScroll, canMove: canMove)
         self.content = content
     }
     
@@ -101,9 +101,9 @@ extension ACarousel where ID == Data.Element.ID, Data.Element : Identifiable {
     ///   - autoScroll: A enum that define view to scroll automatically. See
     ///     ``ACarouselAutoScroll``. default is `inactive`.
     ///   - content: The view builder that creates views dynamically.
-    public init(_ data: Data, index: Binding<Int> = .constant(0), spacing: CGFloat = 10, headspace: CGFloat = 10, sidesScaling: CGFloat = 0.8, sidesShift: CGFloat = 0.0, isWrap: Bool = false, autoScroll: ACarouselAutoScroll = .inactive, canMove: Bool = true, @ViewBuilder content: @escaping (Data.Element) -> Content) {
+    public init(_ data: Data, contentWidth: CGFloat, index: Binding<Int> = .constant(0), spacing: CGFloat = 10, headspace: CGFloat = 10, sidesScaling: CGFloat = 0.8, sidesShift: CGFloat = 0.0, isWrap: Bool = false, autoScroll: ACarouselAutoScroll = .inactive, canMove: Bool = true, @ViewBuilder content: @escaping (Data.Element) -> Content) {
         
-        self.viewModel = ACarouselViewModel(data, index: index, spacing: spacing, headspace: headspace, sidesScaling: sidesScaling, sidesShift: sidesShift, isWrap: isWrap, autoScroll: autoScroll, canMove: canMove)
+        self.viewModel = ACarouselViewModel(data, contentWidth: contentWidth, index: index, spacing: spacing, headspace: headspace, sidesScaling: sidesScaling, sidesShift: sidesShift, isWrap: isWrap, autoScroll: autoScroll, canMove: canMove)
         self.content = content
     }
     
@@ -115,8 +115,8 @@ struct ACarousel_LibraryContent: LibraryContentProvider {
     let Datas = Array(repeating: _Item(color: .red), count: 3)
     @LibraryContentBuilder
     var views: [LibraryItem] {
-        LibraryItem(ACarousel(Datas) { _ in }, title: "ACarousel", category: .control)
-        LibraryItem(ACarousel(Datas, index: .constant(0), spacing: 10, headspace: 10, sidesScaling: 0.8, isWrap: false, autoScroll: .inactive) { _ in }, title: "ACarousel full parameters", category: .control)
+        LibraryItem(ACarousel(Datas, contentWidth: 150) { _ in }, title: "ACarousel", category: .control)
+        LibraryItem(ACarousel(Datas, contentWidth: 150, index: .constant(0), spacing: 10, headspace: 10, sidesScaling: 0.8, isWrap: false, autoScroll: .inactive) { _ in }, title: "ACarousel full parameters", category: .control)
     }
 
     struct _Item: Identifiable {

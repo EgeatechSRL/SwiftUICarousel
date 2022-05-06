@@ -31,6 +31,7 @@ struct ContentView: View {
             Text("\(currentIndex + 1)/\(roles.count)")
             Spacer().frame(height: 40)
             ACarousel(roles,
+                      contentWidth: 150,
                       id: \.self,
                       index: $currentIndex,
                       spacing: spacing,
@@ -79,7 +80,7 @@ struct ControlPanel: View {
                 }
                 HStack {
                     Text("headspace: ").frame(width: 120)
-                    Slider(value: $headspace, in: 0...30, minimumValueLabel: Text("0"), maximumValueLabel: Text("30")) { EmptyView() }
+                    Slider(value: $headspace, in: 0...300, minimumValueLabel: Text("0"), maximumValueLabel: Text("300")) { EmptyView() }
                 }
                 HStack {
                     Text("sidesScaling: ").frame(width: 120)
